@@ -1,4 +1,5 @@
-import { useEffect, useCallback, RefObject } from "react";
+import type { RefObject } from "react";
+import { useCallback, useEffect } from "react";
 
 type EventType = "mousedown" | "mouseup" | "touchstart" | "touchend";
 

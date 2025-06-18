@@ -63,6 +63,8 @@ const useCopyToClipboard = (options: CopyToClipboardOptions = {}) => {
 
       return () => clearTimeout(timer);
     }
+
+    return;
   }, [state.isSuccess, resetAfter]);
 
   const copy = useCallback(

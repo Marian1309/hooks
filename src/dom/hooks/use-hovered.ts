@@ -1,7 +1,6 @@
 import { useCallback, useState, useRef, useEffect } from "react";
 
 import type { RefObject } from "react";
-
 import useEventListener from "./use-event-listener";
 
 type HoverOptions = {

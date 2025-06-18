@@ -20,7 +20,37 @@ bun install @pidchashyi/hooks
 
 ---
 
-## ⚙️ Hooks API Reference
+## 📁 Package Structure
+
+The hooks are organized into different categories for better organization and tree-shaking:
+
+```
+@pidchashyi/hooks/
+├── / (root)          # Core utility hooks
+├── /dom              # DOM-related hooks
+└── /advanced         # Advanced functionality hooks
+```
+
+## 🎯 Import Paths
+
+Import hooks from their respective paths:
+
+```typescript
+// Core hooks
+import { useArray, useDebounce } from "@pidchashyi/hooks";
+
+// DOM-related hooks
+import { useClickOutside, useWindowSize } from "@pidchashyi/hooks/dom";
+
+// Advanced hooks
+import { useFetch, useAdvancedSearch } from "@pidchashyi/hooks/advanced";
+```
+
+---
+
+## ⚙️ Core Hooks
+
+These hooks are available from the root import path `@pidchashyi/hooks`:
 
 ### `useArray<T>`
 
@@ -31,14 +61,71 @@ const { array, push, remove, filter, update, clear, insertAt, pop, updateAll } =
   useArray<T>(initialArray);
 ```
 
-- **Features**:
-  - Add/remove items
-  - Update items at specific indices
-  - Filter array contents
-  - Clear the entire array
-  - Insert at specific positions
-  - Pop last item
-  - Batch update all items
+### `useDebounce<T>`
+
+Delay value updates until after a specified timeout.
+
+```tsx
+const debouncedValue = useDebounce(value, delay);
+```
+
+### `useDebouncedCallback`
+
+Create a debounced version of any callback function.
+
+```tsx
+const debouncedFn = useDebouncedCallback(callback, delay, {
+  leading: false,
+  trailing: true,
+  maxWait: undefined,
+  resetTimer: false,
+});
+```
+
+### `useIsMounted`
+
+Track component mount state.
+
+```tsx
+const isMounted = useIsMounted();
+```
+
+### `useLocalStorage<T>`
+
+Manage state with localStorage synchronization.
+
+```tsx
+const { value, set, remove, exists } = useLocalStorage<T>(key, {
+  initialValue,
+  serialize: true,
+  onError: (error) => console.error(error),
+});
+```
+
+### `usePreviousValue<T>`
+
+Track value from previous render.
+
+```tsx
+const previousValue = usePreviousValue(currentValue);
+```
+
+### `useToggle<T>`
+
+Toggle between two values with type safety.
+
+```tsx
+const [value, { toggle, setFirst, setSecond, setValue }] = useToggle(
+  first,
+  second
+);
+```
+
+---
+
+## 🌐 DOM Hooks
+
+Import these hooks from `@pidchashyi/hooks/dom`:
 
 ### `useClickInside<T>`
 
@@ -52,12 +139,6 @@ const handleClickInside = useClickInside(".clickable", {
   handleTouch: true,
 });
 ```
-
-- **Options**:
-  - Enable/disable detection
-  - Control event propagation
-  - Handle touch events
-  - Custom callback handling
 
 ### `useClickOutside`
 
@@ -73,12 +154,6 @@ useClickOutside(elementRef, handleOutsideClick, {
 });
 ```
 
-- **Features**:
-  - Multiple element support
-  - Custom event types
-  - Conditional handling
-  - Event control options
-
 ### `useCopyToClipboard`
 
 Copy text to clipboard with status tracking and fallback support.
@@ -91,45 +166,6 @@ const { copy, value, isSuccess, error } = useCopyToClipboard({
 });
 ```
 
-- **Features**:
-  - Success/error tracking
-  - Automatic status reset
-  - Custom callbacks
-  - Fallback for older browsers
-
-### `useDebounce<T>`
-
-Delay value updates until after a specified timeout.
-
-```tsx
-const debouncedValue = useDebounce(value, delay);
-```
-
-- **Features**:
-  - Customizable delay
-  - Type-safe
-  - Automatic cleanup
-  - Immediate mode support
-
-### `useDebouncedCallback`
-
-Create a debounced version of any callback function.
-
-```tsx
-const debouncedFn = useDebouncedCallback(callback, delay, {
-  leading: false,
-  trailing: true,
-  maxWait: undefined,
-  resetTimer: false,
-});
-```
-
-- **Features**:
-  - Leading/trailing edge execution
-  - Maximum wait time
-  - Timer control
-  - Cancellable
-
 ### `useDeviceType`
 
 Detect and track device type based on viewport width.
@@ -137,12 +173,6 @@ Detect and track device type based on viewport width.
 ```tsx
 const deviceType = useDeviceType();
 ```
-
-- **Returns**: `"mobile" | "laptop" | "desktop"`
-- **Features**:
-  - Responsive breakpoints
-  - Real-time updates
-  - Window resize handling
 
 ### `useDOMObserver`
 
@@ -163,11 +193,6 @@ useDOMObserver(
 );
 ```
 
-- **Features**:
-  - Timeout support
-  - MutationObserver configuration
-  - One-time or continuous observation
-
 ### `useElementSize`
 
 Track element dimensions and position changes.
@@ -180,12 +205,6 @@ const [ref, size] = useElementSize({
   onSizeChange: (size) => console.log(size),
 });
 ```
-
-- **Features**:
-  - ResizeObserver integration
-  - Position tracking
-  - Debounced updates
-  - Change callbacks
 
 ### `useEventListener`
 
@@ -206,11 +225,6 @@ useEventListener(
 );
 ```
 
-- **Features**:
-  - TypeScript event typing
-  - Multiple target support
-  - Event options configuration
-
 ### `useFocusDetection`
 
 Detect window focus state and DevTools open state.
@@ -222,11 +236,6 @@ const { isWindowFocused, isDevToolsOpen } = useFocusDetection({
   enabled: true,
 });
 ```
-
-- **Features**:
-  - Window focus tracking
-  - DevTools detection
-  - Custom callbacks
 
 ### `useFocusWithin`
 
@@ -240,11 +249,6 @@ const isFocused = useFocusWithin("#container", {
   ignoreInternalFocus: false,
 });
 ```
-
-- **Features**:
-  - Container focus tracking
-  - Focus event callbacks
-  - Internal focus handling
 
 ### `useHovered`
 
@@ -260,11 +264,6 @@ const isHovered = useHovered(elementRef, {
 });
 ```
 
-- **Features**:
-  - Delay configuration
-  - Touch event support
-  - State change callbacks
-
 ### `useInViewport`
 
 Detect if an element is in the viewport.
@@ -277,25 +276,6 @@ const isVisible = useInViewport("#element", {
   disconnectOnEntry: false,
 });
 ```
-
-- **Features**:
-  - IntersectionObserver integration
-  - Custom viewport
-  - Threshold control
-  - One-time detection option
-
-### `useIsMounted`
-
-Track component mount state.
-
-```tsx
-const isMounted = useIsMounted();
-```
-
-- **Features**:
-  - Safe state updates
-  - Cleanup handling
-  - Mount status tracking
 
 ### `useKeyPress`
 
@@ -312,30 +292,6 @@ const isPressed = useKeyPress(["Enter", "Space"], {
 });
 ```
 
-- **Features**:
-  - Multiple key support
-  - Modifier key detection
-  - Event customization
-  - Target element specification
-
-### `useLocalStorage<T>`
-
-Manage state with localStorage synchronization.
-
-```tsx
-const { value, set, remove, exists } = useLocalStorage<T>(key, {
-  initialValue,
-  serialize: true,
-  onError: (error) => console.error(error),
-});
-```
-
-- **Features**:
-  - Type-safe storage
-  - Cross-tab synchronization
-  - Custom serialization
-  - Error handling
-
 ### `useLongPress`
 
 Detect long press interactions with touch support.
@@ -349,12 +305,6 @@ const { handlers, isPressed } = useLongPress(callback, {
   moveThreshold: 10,
 });
 ```
-
-- **Features**:
-  - Customizable delay
-  - Movement detection
-  - Touch support
-  - Event handling
 
 ### `usePageLeave`
 
@@ -375,25 +325,6 @@ usePageLeave(
 );
 ```
 
-- **Features**:
-  - Custom messages
-  - Navigation handling
-  - Hash change detection
-  - PopState management
-
-### `usePreviousValue<T>`
-
-Track value from previous render.
-
-```tsx
-const previousValue = usePreviousValue(currentValue);
-```
-
-- **Features**:
-  - Type-safe tracking
-  - Render comparison
-  - Change detection
-
 ### `useScrollPosition`
 
 Track window scroll position with smooth updates.
@@ -401,11 +332,6 @@ Track window scroll position with smooth updates.
 ```tsx
 const scrollY = useScrollPosition();
 ```
-
-- **Features**:
-  - Smooth tracking
-  - Performance optimization
-  - Passive event listening
 
 ### `useTextSelection`
 
@@ -419,45 +345,6 @@ const { text, html, isCollapsed, rect, containingElement } = useTextSelection({
 });
 ```
 
-- **Features**:
-  - Selection content
-  - Position tracking
-  - HTML content
-  - Change callbacks
-
-### `useToggle<T>`
-
-Toggle between two values with type safety.
-
-```tsx
-const [value, { toggle, setFirst, setSecond, setValue }] = useToggle(
-  first,
-  second
-);
-```
-
-- **Features**:
-  - Custom values
-  - Type safety
-  - Multiple actions
-  - State control
-
-### `useWhyDidUpdate`
-
-Debug component re-renders by tracking prop changes.
-
-```tsx
-useWhyDidUpdate("ComponentName", props, {
-  enabled: process.env.NODE_ENV === "development",
-});
-```
-
-- **Features**:
-  - Prop change tracking
-  - Formatted output
-  - Development mode
-  - Circular reference handling
-
 ### `useWindowSize`
 
 Track window dimensions with SSR support.
@@ -465,12 +352,6 @@ Track window dimensions with SSR support.
 ```tsx
 const { innerWidth, innerHeight, outerWidth, outerHeight } = useWindowSize();
 ```
-
-- **Features**:
-  - SSR compatibility
-  - Smooth updates
-  - Complete dimensions
-  - Performance optimization
 
 ### `useZoom`
 
@@ -480,15 +361,11 @@ Track browser zoom level changes.
 const zoomLevel = useZoom();
 ```
 
-- **Features**:
-  - Precise tracking
-  - Cross-browser support
-  - Real-time updates
-  - Device pixel ratio handling
-
 ---
 
-# Advanced Hooks API Referance
+## 🚀 Advanced Hooks
+
+Import these hooks from `@pidchashyi/hooks/advanced`:
 
 ### `useFetch<T, E>`
 
@@ -509,16 +386,9 @@ const { data, status, error, isLoading, refetch, cancel } = useFetch<T, E>(
 );
 ```
 
-- **Features**:
-  - Cache management
-  - Auto-fetching
-  - Response transformation
-  - Error handling
-  - Request cancellation
-
 ### `useAdvancedSearch<T>`
 
-Advanced search functionality with filtering, sorting, pagination, and debouncing.
+Advanced search functionality with filtering, sorting, and pagination.
 
 ```tsx
 const {
@@ -547,15 +417,6 @@ const {
 });
 ```
 
-- **Features**:
-  - Multi-field text search
-  - Complex filtering
-  - Multi-column sorting
-  - Pagination controls
-  - Debounced updates
-  - Type-safe params
-  - Custom search logic
-
 ### `useOptimisticUpdate<T>`
 
 Perform optimistic updates with automatic rollback on failure.
@@ -578,15 +439,6 @@ const { mutate, isLoading, error } = useOptimisticUpdate<T>({
 // Usage
 mutate({ id: 1, status: "completed" });
 ```
-
-- **Features**:
-  - Instant UI updates
-  - Automatic rollback
-  - Error handling
-  - Type-safe mutations
-  - Custom update logic
-  - Progress tracking
-  - Retry capabilities
 
 ---
 
