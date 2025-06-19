@@ -2,8 +2,21 @@
   "name": "@pidchashyi/hooks",
   "version": "3.0.2",
   "description": "A collection of hooks for React",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "keywords": [
+    "react",
+    "hooks",
+    "typescript"
+  ],
+  "homepage": "https://github.com/Marian1309/hooks#readme",
+  "bugs": {
+    "url": "https://github.com/Marian1309/hooks/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Marian1309/hooks.git"
+  },
+  "license": "MIT",
+  "author": "Marian Pidchashyi",
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -21,25 +34,26 @@
       "types": "./dist/advanced.d.ts"
     }
   },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "src",
+    "LICENSE",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsc",
-    "prepare": "npm run build"
-  },
-  "keywords": [
-    "react",
-    "hooks",
-    "typescript"
-  ],
-  "author": "Marian Pidchashyi",
-  "license": "MIT",
-  "devDependencies": {
-    "@types/node": "^24.0.3",
-    "typescript": "^5.0.0"
+    "prepare": "npm run build",
+    "postpublish": "rimraf -rf dist"
   },
   "dependencies": {
     "@pidchashyi/try-catch": "^1.1.0",
     "nuqs": "^2.4.3",
     "react": "18.3.1",
     "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.3",
+    "typescript": "^5.0.0"
   }
 }
