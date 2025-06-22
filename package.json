@@ -1,6 +1,6 @@
 {
   "name": "@pidchashyi/hooks",
-  "version": "3.0.5",
+  "version": "3.0.6",
   "description": "A collection of hooks for React",
   "keywords": [
     "react",
@@ -36,10 +36,12 @@
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc",
-    "prepare": "npm run build",
-    "postpublish": "rimraf -rf dist"
+    "prepare": "npm run build"
   },
   "dependencies": {
     "@pidchashyi/try-catch": "^1.1.0",
